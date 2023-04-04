@@ -14,6 +14,7 @@ export function App() {
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee()
   const [isLoading, setIsLoading] = useState(false)
 
+
   const transactions = useMemo(
     () => paginatedTransactions?.data ?? transactionsByEmployee ?? null,
     [paginatedTransactions, transactionsByEmployee]
@@ -42,7 +43,7 @@ export function App() {
       loadAllTransactions()
     }
   }, [employeeUtils.loading, employees, loadAllTransactions])
-
+  const showViewMore = (transactions !== null && paginatedTransactions?.nextPage !== null && transactionsByEmployee === null);
   return (
     <Fragment>
       <main className="MainContainer">
@@ -79,7 +80,7 @@ export function App() {
         <div className="RampGrid">
           <Transactions transactions={transactions} />
 
-          {transactions !== null && (
+          {showViewMore && (
             <button
               className="RampButton"
               disabled={paginatedTransactionsUtils.loading}
